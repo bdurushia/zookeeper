@@ -1,23 +1,15 @@
 const fs = require('fs');
-const {
-    filterByQuery,
-    findById,
-    ccreateNewAnimal,
-    validateAnimal,
-    createNewAnimal
-} = require('../lib/animals');
-const animals = require('../data/animals.json');
-const { hasUncaughtExceptionCaptureCallback } = require('process');
+const { filterByQuery, findById, createNewAnimal, validateAnimal } = require('../lib/animals.js');
+const animals = require('../data/animals');
 
-test("creates an animal object", () => {
-    const animal = createNewAnimal(
-        { name: "Darlene", id: "jhgdja3ng2" },
-        animals
-    );
+jest.mock('fs');
 
-    expect(animal.name).toBe("Darlene");
-    expect(animal.id).toBe("jhgdja3ng2");
-});
+test('creates an animal object', () => {
+    const animal = createNewAnimal({ name: 'Darlene', id: 'jhgdja3ng2' }, animals);
+  
+    expect(animal.name).toBe('Darlene');
+    expect(animal.id).toBe('jhgdja3ng2');
+  });
 
 test("filters by query", () => {
     const startingAnimals = [
@@ -38,7 +30,7 @@ test("filters by query", () => {
     ];
 
     const updatedAnimals = filterByQuery({ species: "gorilla" }, startingAnimals);
-    expect(updatedAnimals).toEqual(1);
+    expect(updatedAnimals.length).toEqual(1);
 });
 
 test("finds by id", () => {
